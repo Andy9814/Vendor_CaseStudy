@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+ @import '~@angular/material/prebuilt-themes/purple-green';
+ @import '~@angular/material/_theming';
+// Include non-theme styles for core.
+@include mat-core();
+mat-list-item:nth-child(odd){
+    background-color:rgb(194, 40, 40);
+    }
+    mat-list-item:nth-child(even) {
+        background-color:#4a39af;
+        }
