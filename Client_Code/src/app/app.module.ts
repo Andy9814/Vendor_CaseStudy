@@ -1,15 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, MatListModule } from '@angular/material';
+import {
+  MatButtonModule, MatCardModule, MatMenuModule,
+  MatToolbarModule, MatIconModule, MatListModule, MatFormFieldModule, MatInputModule
+} from '@angular/material';
 import { VendorListComponent } from './vendor/vendor-list.component';
 import { VendorHomeComponent } from './vendor/vendor-home.component';
+import { VendorDetailComponent } from './vendor/vendor-detail.component';
 
 @NgModule({
   declarations: [
-    VendorListComponent, VendorHomeComponent
+    VendorListComponent, VendorHomeComponent, VendorDetailComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -21,7 +25,10 @@ import { VendorHomeComponent } from './vendor/vendor-home.component';
     MatIconModule,
     MatListModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   bootstrap: [VendorHomeComponent]
 })

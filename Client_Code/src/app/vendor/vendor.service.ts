@@ -16,4 +16,10 @@ export class VendorService {
   load() {
     return this.http.get<any>(this.resourceURL);
   }
+  /**
+   * Update an employee on the server using http put, server returns updated employee
+   */
+  update(vendor: Vendor) {
+    return this.http.put<Vendor>(`${this.resourceURL}/${vendor.id}`, vendor);
+  } // update
 }

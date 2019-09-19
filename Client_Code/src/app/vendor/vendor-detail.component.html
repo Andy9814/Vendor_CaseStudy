@@ -1,0 +1,50 @@
+<form [formGroup]="vendorForm" (ngSubmit)="updateSelectedVendor()">
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Name" type="text" required formControlName="name" autofocus>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Address" type="text" required formControlName="address">
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="City" type="text" required formControlName="city">
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Province" type="text" required formControlName="province">
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Postal Code" type="email" required formControlName="postalcode">
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Phone" type="email" required formControlName="phone">
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Type" type="email" required formControlName="type">
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Email" type="email" required formControlName="email">
+        </mat-form-field>
+    </div>
+    <div class="mat-pad-sm">
+        <span>
+            <button mat-raised-button type="submit">Save</button>
+        </span>
+        <span>
+            <button mat-raised-button type="button" (click)="cancelled.emit(selectedVendor)">Cancel</button>
+        </span>
+    </div>
+</form>
