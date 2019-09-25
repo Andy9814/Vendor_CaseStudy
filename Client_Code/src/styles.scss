@@ -9,3 +9,12 @@ mat-list-item:nth-child(odd){
     mat-list-item:nth-child(even) {
         background-color:#4a39af;
         }
+        .padtop15 {
+            padding-top: 15%;
+            }
+            .material-icons.addicon {
+            font-size: 10vw;
+            position:absolute;
+            bottom:4vh;
+            right:8vw;
+            }

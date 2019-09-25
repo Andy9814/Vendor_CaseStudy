@@ -65,4 +65,59 @@ export class VendorHomeComponent implements OnInit {
       });
   } // update
 
+
+  save(vendor: Vendor) {
+    console.log(vendor.id);
+    (vendor.id) ? this.update(vendor) : this.add(vendor);
+  } // save
+
+  /**
+* add - send employee to service, receive newid back
+*/
+  add(vendor: Vendor) {
+    vendor.id = 0;
+    this.vendorServices.add(vendor)
+      .subscribe(payload => {
+
+        if (payload.id > 0) { // server returns new id
+          this.vendors = [...this.vendors, payload]; // add employee to current array using spread
+          vendor.id = payload.id;
+          this.msg = `Vendor ${payload.id} added!`;
+        } else {
+          this.msg = 'Vendor not added!';
+        }
+        this.hideEditForm = !this.hideEditForm;
+      },
+        err => {
+          this.msg = `Error - vendor not added - ${err.status} - ${err.statusText}`;
+        });
+  } // ad
+
+  /**
+* delete - send employee id to service for deletion and remove from local collection
+*/
+  delete(vendor: Vendor) {
+    this.vendorServices.delete(vendor.id)
+      .subscribe(payload => {
+        if (payload === 1) { // server returns # rows deleted
+          this.msg = `Vendor ${vendor.id} deleted!`;
+          this.vendors = this.vendors.filter(emp => emp.id !== vendor.id);
+        } else {
+          this.msg = 'Vendor not deleted!';
+        }
+        this.hideEditForm = !this.hideEditForm;
+      },
+        err => {
+          this.msg = `Error - vendor not deleted - ${err.status} - ${err.statusText}`;
+        });
+  } // delete
+  /**
+  * newEmployee - create new employee instance
+  */
+  newVendor() {
+    this.vendor = { id: null, name: '', address1: '', city: '', province: '', postalcode: '', phone: '', type: '', email: '' };
+    this.msg = 'New Vendor';
+    this.hideEditForm = !this.hideEditForm;
+  } // newEmployee
+
 }

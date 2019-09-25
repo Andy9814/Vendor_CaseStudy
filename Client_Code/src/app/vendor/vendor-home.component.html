@@ -11,8 +11,14 @@
 
     <mat-card-content>
         <mat-list>
-            <app-vendor-list [vendors]="vendors" (selected)="select($event)"></app-vendor-list>
+            <app-vendor-list [vendors]="vendors" (selected)="select($event)">
+            </app-vendor-list>
         </mat-list>
+        <div class="padtop15">
+            <mat-icon (click)="newVendor()" matTooltip="Add New Vendor" class="addicon" color="primary">
+                control_point
+            </mat-icon>
+        </div>
     </mat-card-content>
 </mat-card>
 <mat-card *ngIf="!hideEditForm">
@@ -22,7 +28,8 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <app-vendor-detail [selectedVendor]="vendor" (cancelled)="cancel('cancelled')" (saved)="update($event)">
+        <app-vendor-detail [selectedVendor]="vendor" (cancelled)="cancel('cancelled')" (saved)="save($event)"
+            (deleted)="delete($event)">
         </app-vendor-detail>
     </mat-card-content>
 </mat-card>
