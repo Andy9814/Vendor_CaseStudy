@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Vendor } from './vendor';
-import { VendorService } from './vendor.service';
-
+import { RestfulService } from '../restful.service';
+import { BASEURL } from '../constants';
 
 @Component({
   selector: 'app-vendors',
@@ -14,13 +14,16 @@ export class VendorHomeComponent implements OnInit {
   hideEditForm: boolean;
   msg: string;
   todo: string;
-  constructor(public vendorServices: VendorService) {
+  url: string;
+  constructor(public restService: RestfulService) {
     this.hideEditForm = true;
+    this.url = BASEURL + 'vendors';
+
   }
 
   ngOnInit() {
     this.msg = 'Loading Vendor From the Server...';
-    this.vendorServices.load().subscribe(
+    this.restService.load(this.url).subscribe(
       payload => {
         this.vendors = payload._embedded.vendors;
         this.msg = 'vendors loaded!!';
@@ -50,10 +53,10 @@ export class VendorHomeComponent implements OnInit {
   * update - send changed update to service update local array
   */
   update(vendor: Vendor) {
-    this.vendorServices.update(vendor).subscribe(payload => {
+    this.restService.update(`${this.url}/${vendor.id}`, vendor).subscribe(payload => {
       if (payload.id > 0) {
         // update local array using ? operator with data returned from the server
-        this.vendors = this.vendors.map(vend => vend.id === vendor.id ? ({ ...vend, payload }) : vend);
+        this.vendors = this.vendors.map(vend => vend.id === vendor.id ? (Object as any).assign({}, vend, payload) : vend);
         this.msg = `Vendor [ ${vendor.id} ] updated!`;
       } else {
         this.msg = 'Vendor not updated! - server error';
@@ -76,7 +79,7 @@ export class VendorHomeComponent implements OnInit {
 */
   add(vendor: Vendor) {
     vendor.id = 0;
-    this.vendorServices.add(vendor)
+    this.restService.add(this.url, vendor)
       .subscribe(payload => {
 
         if (payload.id > 0) { // server returns new id
@@ -97,7 +100,7 @@ export class VendorHomeComponent implements OnInit {
 * delete - send employee id to service for deletion and remove from local collection
 */
   delete(vendor: Vendor) {
-    this.vendorServices.delete(vendor.id)
+    this.restService.delete(`${this.url}/search/deleteOne?vendorid=${vendor.id}`)
       .subscribe(payload => {
         if (payload === 1) { // server returns # rows deleted
           this.msg = `Vendor ${vendor.id} deleted!`;
