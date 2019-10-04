@@ -1,0 +1,83 @@
+<form [formGroup]="vendorForm" (ngSubmit)="updateSelectedVendor()">
+    <div layout="row">
+        <mat-form-field flex>
+            <input matInput placeholder="Name" type="text" required formControlName="name" autofocus>
+            <mat-hint *ngIf="name.errors && (name.dirty || name.touched)" align="end" [ngStyle]="{'color': 'red'}">
+                Name is required </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Address" type="text" required formControlName="address">
+            <mat-hint *ngIf="address.errors && (address.dirty || address.touched)" align="end"
+                [ngStyle]="{'color': 'red'}">
+                Address is required </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="City" type="text" required formControlName="city">
+            <mat-hint *ngIf="city.errors && (city.dirty || city.touched)" align="end" [ngStyle]="{'color': 'red'}">
+                City is required </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Province" type="text" required formControlName="province">
+            <mat-hint *ngIf="province.errors && (province.dirty || province.touched)" align="end"
+                [ngStyle]="{'color': 'red'}">
+                Province is required </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Postal Code" type="text" required formControlName="postalcode">
+            <mat-hint *ngIf="postalcode.errors && (postalcode.dirty || postalcode.touched)" align="end"
+                [ngStyle]="{'color': 'red'}">
+                <p *ngIf="postalcode.hasError('required')"> Postal Code is required</p>
+                <p *ngIf="!postalcode.hasError('required') && postalcode.hasError('invalidPostalCode')">valid format
+                    required -
+                    X#X#X#</p>
+            </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field flex>
+            <input matInput placeholder="Phone" type="text" required formControlName="phone">
+            <mat-hint *ngIf="phone.errors && (phone.dirty || phone.touched)" align="end" [ngStyle]="{'color': 'red'}">
+                <p *ngIf="phone.hasError('required')">Phone# is required.</p>
+                <p *ngIf="!phone.hasError('required') && phone.hasError('invalidPhone')">valid format required -
+                    (###)###-####</p>
+            </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Type" type="text" required formControlName="type">
+            <mat-hint *ngIf="type.errors && (type.dirty || type.touched)" align="end" [ngStyle]="{'color': 'red'}">
+                Type is required </mat-hint>
+        </mat-form-field>
+    </div>
+    <div layout="row">
+        <mat-form-field>
+            <input matInput placeholder="Email" type="text" formControlName="email">
+            <mat-hint *ngIf="email.errors && (email.dirty || email.touched)" align="end" [ngStyle]="{'color': 'red'}">
+                <p *ngIf="email.hasError('required')">Email is required </p>
+                <p *ngIf="!email.hasError('required') && email.hasError('invalidEmail')">valid format required -
+                    aaa@gmail.com </p>
+            </mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="mat-pad-sm">
+        <button mat-raised-button type="button" (click)="updateSelectedVendor()" [disabled]="!vendorForm.valid">
+            Save
+        </button>
+        <span>
+            <button mat-raised-button type="button" (click)="cancelled.emit(selectedVendor)">Cancel</button>
+        </span>
+        <span>
+            <button *ngIf="selectedVendor.id" mat-raised-button type="button"
+                (click)="deleted.emit(selectedVendor)">Delete</button>
+        </span>
+    </div>
+</form>

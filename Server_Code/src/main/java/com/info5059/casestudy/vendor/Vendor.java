@@ -1,13 +1,15 @@
 package com.info5059.casestudy;
 
+import com.info5059.casestudy.product.Product;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
 @Entity
-@RequiredArgsConstructor
 public class Vendor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +22,6 @@ public class Vendor {
     private String phone;
     private String type;
     private String email;
+    @OneToMany(mappedBy = "vendorid", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Product> products = new HashSet<>();
 }
