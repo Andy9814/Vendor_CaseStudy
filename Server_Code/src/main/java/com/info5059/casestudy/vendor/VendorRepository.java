@@ -22,5 +22,6 @@ public interface VendorRepository extends CrudRepository<Vendor, Long>{
     @Query("delete from Vendor where id = ?1")
     @DeleteMapping("/vendors/{id}")
     int deleteOne(Long vendorid);
+
 }
 

@@ -8,7 +8,7 @@ import { VendorModule } from './vendor/vendor.module';
 import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { ProductModule } from './product/product.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatCardModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatIconModule
+    MatIconModule,
+    ProductModule
   ],
   bootstrap: [AppComponent]
 })
