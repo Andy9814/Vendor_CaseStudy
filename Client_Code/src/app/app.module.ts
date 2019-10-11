@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductModule } from './product/product.module';
+import { PurchaseorderModule } from './purchaseorder/purchaseorder.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ProductModule } from './product/product.module';
     MatToolbarModule,
     MatTooltipModule,
     MatIconModule,
-    ProductModule
+    ProductModule,
+    PurchaseorderModule
   ],
   bootstrap: [AppComponent]
 })
