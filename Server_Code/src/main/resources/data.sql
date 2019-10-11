@@ -17,5 +17,15 @@ INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('4X',1,'Ziggy',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('5X',1,'Tesla',84.6,75.23,75,75,75,75);
+INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
+VALUES ('6X',1,'3Com',84.6,75.23,75,75,75,75);
+INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
+VALUES ('7X',4,'A&M Records',84.6,75.23,75,75,75,75);
+INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
+VALUES ('8X',4,'Adobe Systems',84.6,75.23,75,75,75,75);
+INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
+VALUES ('9X',4,'Microsoft',84.6,75.23,75,75,75,75);
+INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
+VALUES ('10X',4,'Eclipse',84.6,75.23,75,75,75,75);
 
 
