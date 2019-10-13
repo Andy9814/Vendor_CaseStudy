@@ -83,6 +83,9 @@
             <div style="text-align:center;" *ngIf="hasProducts">
                 <button mat-raised-button color="primary" (click)="createPurchaseorder()">Add PO</button>
             </div>
+            <div style="text-align:center;" *ngIf="generated">
+                <button mat-raised-button type="submit" (click)="viewPdf()">View PDF</button>
+            </div>
         </form>
         <span class="mat-card-content" style="color: teal; float: right">{{ msg }}</span>
     </mat-card-content>

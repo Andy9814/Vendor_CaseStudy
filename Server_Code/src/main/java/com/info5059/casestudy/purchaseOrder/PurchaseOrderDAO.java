@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 
@@ -28,5 +29,12 @@ public class PurchaseOrderDAO {
         }
         return  realPurchaseOrder.getId();
     }
-
+    public PurchaseOrder findOne(Long id) {
+        PurchaseOrder report = entityManager.find(PurchaseOrder.class, id);
+        if (report == null) {
+            throw new EntityNotFoundException("Can't find report for ID "
+                    + id);
+        }
+        return report;
+    }
     }

@@ -29,3 +29,6 @@ INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('10X',4,'Eclipse',84.6,75.23,75,75,75,75);
 
 
+-- sample report
+INSERT INTO PURCHASE_ORDER  (vendorid,podate) VALUES (1, CURRENT_TIMESTAMP);
+INSERT INTO PURCHASE_ORDER_LINE_ITEM (productid,poid,qty) VALUES ('1X',1,50);

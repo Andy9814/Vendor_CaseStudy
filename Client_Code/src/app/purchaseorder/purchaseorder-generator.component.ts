@@ -5,7 +5,7 @@ import { RestfulService } from '../restful.service';
 import { Product } from '../product/product';
 import { PurchaseorderItem } from './purchaseorder-item';
 import { Purchaseorder } from './purchaseorder';
-import { BASEURL } from '../constants';
+import { BASEURL, PDFURL } from '../constants';
 @Component({
   templateUrl: './purchaseorder-generator.component.html'
 })
@@ -186,5 +186,12 @@ export class PurchaseorderGeneratorComponent implements OnInit {
       }
     );
   } // createReport
+  /**
+* viewPdf - determine report number and pass to server
+* for PDF generation in a new window
+*/
+  viewPdf() {
+    window.open(PDFURL + this.pono, '');
+  } // viewPdf
 } // ReportGeneratorComponent
 
