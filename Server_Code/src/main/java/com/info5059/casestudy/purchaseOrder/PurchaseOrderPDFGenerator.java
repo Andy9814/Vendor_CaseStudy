@@ -21,6 +21,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+// add address to vendor
+
 
 public class PurchaseOrderPDFGenerator {
     public static ByteArrayInputStream generateReport(String poid,
@@ -46,85 +48,180 @@ public class PurchaseOrderPDFGenerator {
             preface.add(image1);
             preface.setAlignment(Element.ALIGN_RIGHT);
 // Lets write a big header
-            Paragraph mainHead = new Paragraph(String.format("%55s", "PURCHASE ORDER"), catFont);
+            Paragraph mainHead = new Paragraph(String.format("%55s", "PURCHASE ORDER "), catFont);
             preface.add(mainHead);
             preface.add(new Paragraph(String.format("%90s", "PO#:" + poid), subFont));
-            addEmptyLine(preface, 3);// 3 column table
+            addEmptyLine(preface, 3);
+            BigDecimal tot = new BigDecimal(0.0);
+            BigDecimal tax = new BigDecimal(0.13);
+            BigDecimal ordertot = new BigDecimal(0.0);
+
+
             Optional<Vendor> opt = vendorRepository.findById(purchaseOrder.getVendorid());
             if (opt.isPresent()) {
                 Vendor vendor = opt.get();
-                PdfPTable table = new PdfPTable(2);
-                PdfPCell cell = new PdfPCell(new Phrase("VENDOR:", smallBold));
-                PdfPCell cell1 = new PdfPCell(new Phrase(vendor.getName() + "\n" + vendor.getAddress1() , smallBold));
-                cell1.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                table.setWidthPercentage(30);
-                table.addCell(cell);
-                table.addCell(cell1);
-                preface.add(table);
+
+
+                PdfPTable tableName = new PdfPTable(2);
+                PdfPCell c1 = new PdfPCell(new Paragraph("Vendor: ", smallBold));
+                c1.setBorder(0);
+                tableName.addCell(c1);
+
+
+                PdfPCell efName = new PdfPCell(new Phrase( vendor.getName(), smallBold));
+                efName.setHorizontalAlignment(Element.ALIGN_CENTER);
+                efName.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                efName.setBorder(0);
+                tableName.addCell(efName);
+
+                PdfPCell empty = new PdfPCell(new Phrase( " "));
+                empty.setHorizontalAlignment(Element.ALIGN_CENTER);
+                empty.setBorder(0);
+                tableName.addCell(empty);
+
+
+                PdfPCell elName = new PdfPCell(new Phrase( vendor.getAddress1(), smallBold));
+                elName.setHorizontalAlignment(Element.ALIGN_CENTER);
+                elName.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                elName.setBorder(0);
+                tableName.addCell(elName);
+
+                PdfPCell empty1 = new PdfPCell(new Phrase( " "));
+                empty1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                empty1.setBorder(0);
+                tableName.addCell(empty1);
+
+                PdfPCell city = new PdfPCell(new Phrase( vendor.getCity(), smallBold));
+                city.setHorizontalAlignment(Element.ALIGN_CENTER);
+                city.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                city.setBorder(0);
+                tableName.addCell(city);
+
+                empty.setHorizontalAlignment(Element.ALIGN_CENTER);
+                empty.setBorder(0);
+                tableName.addCell(empty);
+
+                PdfPCell  province = new PdfPCell(new Phrase( vendor.getProvince(), smallBold));
+                province.setHorizontalAlignment(Element.ALIGN_CENTER);
+                province.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                province.setBorder(0);
+                tableName.addCell(province);
+
+                empty.setHorizontalAlignment(Element.ALIGN_CENTER);
+                empty.setBorder(0);
+                tableName.addCell(empty);
+
+                PdfPCell  postal  = new PdfPCell(new Phrase( vendor.getPostalcode(), smallBold));
+                postal.setHorizontalAlignment(Element.ALIGN_CENTER);
+                postal.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                postal.setBorder(0);
+                tableName.addCell(postal);
+
+                preface.add(tableName);
+                addEmptyLine(preface,4);
             }
-            addEmptyLine(preface, 2);
-            BigDecimal tot = new BigDecimal(0.0);
+
             PdfPTable table = new PdfPTable(5);
-            PdfPCell cell = new PdfPCell(new Paragraph("Product Code", smallBold));
+            PdfPCell  cell = new PdfPCell(new Paragraph("Product Code", smallBold));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("Product Description", smallBold));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph("Quantity Sold", smallBold));
+            cell = new PdfPCell(new Paragraph("Quantity Solid", smallBold));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("Price", smallBold));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph("Ext Price", smallBold));
+            cell = new PdfPCell(new Paragraph("Exit Price", smallBold));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
+
             for (PurchaseOrderLineItem line : purchaseOrder.getItems()) {
                 Optional<Product> optx = productRepository.findById(line.getProductid());
                 if (optx.isPresent()) {
                     Product product = optx.get();
-                    tot = tot.add(product.getCostprice(), new MathContext(8, RoundingMode.UP));
-                    cell = new PdfPCell(new Phrase(product.getId()));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase(product.getName()));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase(Integer.toString(line.getQty())));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase(formatter.format(product.getCostprice())));
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Phrase
-                            (
-                                    formatter.format(line.getPrice()
-                                    )
-                            )
-                    );
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
+
+
+                    PdfPCell    c1 = new PdfPCell(new Phrase(product.getId()));
+                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(c1);
+
+                    c1 = new PdfPCell(new Phrase(product.getName()));
+                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(c1);
+
+                    c1 = new PdfPCell(new Paragraph(String.format( "" + line.getQty())));
+                    c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    table.addCell(c1);
+
+                    c1 = new PdfPCell(new Phrase(formatter.format(product.getCostprice()))); //needs to change
+                    c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    table.addCell(c1);
+
+                    c1 = new PdfPCell(new Phrase(formatter.format(product.getCostprice().multiply(BigDecimal.valueOf(line.getQty()))))); //cost * qty
+                    c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    table.addCell(c1);
+
+                    tot = tot.add(product.getCostprice().multiply(BigDecimal.valueOf(line.getQty())), new MathContext(8, RoundingMode.UP));
                 }
 
             }
-            cell = new PdfPCell(new Phrase(""));
-            cell.setBorder(0);
-            cell.setColspan(2);
-            table.addCell(cell);
-            cell = new PdfPCell(new Phrase("Report Total:"));
-            cell.setBorder(0);
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            table.addCell(cell);
-            cell = new PdfPCell(new Phrase(formatter.format(tot)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setBackgroundColor(BaseColor.YELLOW);
-            table.addCell(cell);
-            preface.add(table);
 
+
+
+            //  Total
+            PdfPCell  c1 = new PdfPCell(new Phrase(""));
+            c1.setBorder(0);
+            c1.setColspan(3);
+            table.addCell(c1);
+            c1 = new PdfPCell(new Phrase("Total:"));
+            c1.setBorder(0);
+            c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(c1);
+
+
+            c1 = new PdfPCell(new Phrase(formatter.format(tot)));  //
+            c1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+            table.addCell(c1);
+
+            //  Tax
+            // tot = tot * 0.13;
+            PdfPCell   Tax = new PdfPCell(new Phrase(" " ));  // total * 0.13 ;
+            Tax.setBorder(0);
+            Tax.setColspan(3);
+            tax = tot.multiply(tax);
+            table.addCell(Tax);
+            Tax = new PdfPCell(new Phrase("Tax:"));
+            Tax.setBorder(0);
+            Tax.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(Tax);
+
+            PdfPCell  Taxnum = new PdfPCell(new Phrase(formatter.format(tax)));
+            Taxnum.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+            table.addCell(Taxnum);
+
+            // order total
+            PdfPCell   ordertotal = new PdfPCell(new Phrase(""));
+            ordertotal.setBorder(0);
+            ordertotal.setColspan(3);
+            table.addCell(ordertotal);
+            ordertotal = new PdfPCell(new Phrase("Order Total:"));    // total + tax
+            ordertotal.setBorder(0);
+            ordertotal.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(ordertotal);
+            ordertot=  tot.add(tax);
+            ordertotal = new PdfPCell(new Phrase(formatter.format(ordertot)));
+            ordertotal.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            ordertotal.setBackgroundColor(BaseColor.YELLOW);
+            table.addCell(ordertotal);
+            preface.add(table);
             addEmptyLine(preface, 3);
             preface.setAlignment(Element.ALIGN_CENTER);
-            preface.add(new Paragraph(String.format("%60s", "Purchase order Generated :- "+new Date()), subFont));
+            preface.add(new Paragraph(String.format("%60s", "PO Generated on: " + new Date())));
             document.add(preface);
             document.close();
         } catch (Exception ex) {

@@ -35,6 +35,8 @@ export class ProductDetailComponent implements OnInit {
   eoq: FormControl;
   qoh: FormControl;
   qoo: FormControl;
+  qrcodetxt: FormControl;
+
   constructor(private builder: FormBuilder) {
     this.id = new FormControl('', Validators.compose([this.uniqueCodeValidator.bind(this), Validators.required]));
     this.vendorid = new FormControl('', Validators.compose([Validators.required]));
@@ -45,6 +47,8 @@ export class ProductDetailComponent implements OnInit {
     this.eoq = new FormControl('', Validators.compose([Validators.required, ValidateInteger]));
     this.qoh = new FormControl('', Validators.compose([Validators.required, ValidateInteger]));
     this.qoo = new FormControl('', Validators.compose([Validators.required, ValidateInteger]));
+    this.qrcodetxt = new FormControl('', Validators.compose([Validators.required]));
+
   } // constructor
   private restService: RestfulService
   ngOnInit() {
@@ -58,6 +62,7 @@ export class ProductDetailComponent implements OnInit {
       eoq: this.eoq,
       qoh: this.qoh,
       qoo: this.qoo,
+      qrcodetxt: this.qrcodetxt,
     });
 
 
@@ -72,6 +77,8 @@ export class ProductDetailComponent implements OnInit {
       eoq: this.selectedProduct.eoq,
       qoh: this.selectedProduct.qoh,
       qoo: this.selectedProduct.qoo,
+      qrcodetxt: this.selectedProduct.qrcodetxt,
+      qrcode: this.selectedProduct.qrcode
     });
   }
   updateSelectedProduct() {
@@ -84,6 +91,7 @@ export class ProductDetailComponent implements OnInit {
     this.selectedProduct.eoq = this.productForm.value.eoq;
     this.selectedProduct.qoh = this.productForm.value.qoh;
     this.selectedProduct.qoo = this.productForm.value.qoo;
+    this.selectedProduct.qrcodetxt = this.productForm.value.qrcodetxt;
     this.saved.emit(this.selectedProduct);
   }
 

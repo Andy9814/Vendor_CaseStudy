@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {
   MatSelectModule, MatButtonModule, MatInputModule, MatToolbarModule,
   MatIconModule, MatCardModule, MatTooltipModule, MatListModule, MatTableModule,
-  MatSortModule, MatExpansionModule
+  MatSortModule, MatExpansionModule, MatPaginatorModule
 } from '@angular/material';
 
 
@@ -27,7 +27,8 @@ import {
     MatSortModule,
     ReactiveFormsModule,
     BrowserModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatPaginatorModule
   ]
 })
 export class ProductModule { }

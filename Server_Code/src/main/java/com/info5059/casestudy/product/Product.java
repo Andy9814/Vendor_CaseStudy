@@ -3,8 +3,10 @@ package com.info5059.casestudy.product;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import java.math.BigDecimal;
 @Entity
 @Data
@@ -20,13 +22,16 @@ public class Product {
     private int eoq;
     private int qoh;
     private int qoo;
-    private String qrcode;
+    @Lob
+    @Basic(optional = true)
+    private byte[] qrcode;
     private String qrcodetxt;
 
     public String getId() {
         return Id;
     }
 
+    public void increQOO(int x){qoo += x;}
     public int getVendorid() {
         return vendorid;
     }
@@ -59,7 +64,7 @@ public class Product {
         return qoo;
     }
 
-    public String getQrcode() {
+    public byte[] getQrcode() {
         return qrcode;
     }
 
@@ -103,7 +108,7 @@ public class Product {
         this.qoo = qoo;
     }
 
-    public void setQrcode(String qrcode) {
+    public void setQrcode( byte[] qrcode) {
         this.qrcode = qrcode;
     }
 

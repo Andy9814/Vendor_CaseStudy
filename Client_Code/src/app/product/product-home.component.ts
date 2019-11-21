@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, PageEvent, MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 
 import { Product } from './product';
 import { Vendor } from '../vendor/vendor';
 import { RestfulService } from '../restful.service';
-import { BASEURL } from '../constants';
+import { BASEURL, PRODAPIURL } from '../constants';
 
 @Component({
   selector: 'app-product',
@@ -24,7 +24,10 @@ export class ProductHomeComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'vendorid'];
   dataSource: MatTableDataSource<Product>;
   @ViewChild(MatSort, null) sort: MatSort;
-
+  totalElements: number;
+  currentPage: number;
+  // get reference to paginator
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
   constructor(private restService: RestfulService) {
     this.hideEditForm = true;
     this.url = BASEURL + 'products';
@@ -37,21 +40,24 @@ export class ProductHomeComponent implements OnInit {
         this.vendors = empPayload._embedded.vendors;
         this.msg = 'vendors loaded';
         this.msg = 'loading vendors from server...';
-        this.restService.load(this.url).subscribe(
-          expPayload => {
-            this.products = expPayload._embedded.products;
-            this.msg = 'products loaded';
-            this.dataSource = new MatTableDataSource(this.products);
-            this.dataSource.sort = this.sort;
-          },
-          err => {
-            this.msg += `Error occurred - products not loaded - ${err.status} - ${err.statusText}`;
-          });
+        this.currentPage = 0;
+        this.getPagedProducts();
+        // this.restService.load(this.url).subscribe(
+        //   expPayload => {
+        //     this.products = expPayload._embedded.products;
+        //     this.msg = 'products loaded';
+        //     this.dataSource = new MatTableDataSource(this.products);
+        //     this.dataSource.sort = this.sort;
+        //   },
+        //   err => {
+        //     this.msg += `Error occurred - products not loaded - ${err.status} - ${err.statusText}`;
+        //   });
       },
       err => {
         this.msg += `Error occurred - vendors not loaded - ${err.status} - ${err.statusText}`;
       });
   }
+
   select(product: Product) {
     this.todo = 'update';
     this.selectedProduct = product;
@@ -59,16 +65,17 @@ export class ProductHomeComponent implements OnInit {
     this.hideEditForm = !this.hideEditForm;
   } // select
   cancel(msg?: string) {
-    this.restService.load(this.url).subscribe(
-      payload => {
-        this.products = payload._embedded.products;
-        this.msg = 'Operation Cancelled!';
-        this.dataSource.data = this.products;
-        this.dataSource.sort = this.sort;
-      },
-      err => {
-        this.msg += `Error occurred - products not loaded - ${err.status} - ${err.statusText}`;
-      });
+    // this.restService.load(this.url).subscribe(
+    //   payload => {
+    //     this.products = payload._embedded.products;
+    //     this.msg = 'Operation Cancelled!';
+    //     this.dataSource.data = this.products;
+    //     this.dataSource.sort = this.sort;
+    //   },
+    //   err => {
+    //     this.msg += `Error occurred - products not loaded - ${err.status} - ${err.statusText}`;
+    //   });
+    this.getPagedProducts();
     this.hideEditForm = !this.hideEditForm;
   } // cancel
 
@@ -77,7 +84,7 @@ export class ProductHomeComponent implements OnInit {
 */
   update(product: Product) {
     this.msg = 'Updating...';
-    this.restService.update(this.url + '/' + product.id, product).subscribe(payload => {
+    this.restService.update(PRODAPIURL, product).subscribe(payload => {
       if (payload.id !== '') {
         // update local array using ? operator
         this.products = this.products.map(exp => exp.id === product.id ? ({ ...exp, payload }) : exp);
@@ -105,7 +112,7 @@ export class ProductHomeComponent implements OnInit {
   */
   add(product: Product) {
     this.msg = 'Adding...';
-    this.restService.add(this.url, product).subscribe(
+    this.restService.add(PRODAPIURL, product).subscribe(
       payload => {
         if (payload.id != '') { // server returns new id
           this.products = [...this.products, product]; // add Product to current array using spread
@@ -113,6 +120,7 @@ export class ProductHomeComponent implements OnInit {
           this.msg = `Product ${product.id} added!`;
           this.dataSource.data = this.products;
           this.dataSource.sort = this.sort;
+          this.getPagedProducts();
         } else {
           this.msg = 'Product not added! - server error';
         }
@@ -127,7 +135,7 @@ export class ProductHomeComponent implements OnInit {
   newProduct() {
     this.selectedProduct = {
       id: null, vendorid: null, name: '',
-      costprice: null, eoq: null, msrp: null, qoh: null, qoo: null, rop: null
+      costprice: null, eoq: null, msrp: null, qoh: null, qoo: null, rop: null, qrcode: null, qrcodetxt: null
     };
     this.msg = 'New Product';
     this.hideEditForm = !this.hideEditForm;
@@ -144,6 +152,7 @@ export class ProductHomeComponent implements OnInit {
           this.products = this.products.filter(exp => exp.id !== product.id);
           this.dataSource.data = this.products;
           this.dataSource.sort = this.sort;
+          this.getPagedProducts();
         } else {
           this.msg = 'Product not deleted! - server error';
         }
@@ -154,4 +163,27 @@ export class ProductHomeComponent implements OnInit {
     );
     this.hideEditForm = !this.hideEditForm;
   } // delete
+  changePage($pageEvent?: PageEvent) {
+    this.currentPage = $pageEvent.pageIndex;
+    this.getPagedProducts();
+  } // changePage
+  getPagedProducts() {
+    this.msg = 'loading page of Products...';
+    this.restService.load(`${BASEURL}api/pagedproducts?&p=${this.currentPage}&s=5`).subscribe(
+      payload => {
+        this.products = payload.content;
+        this.dataSource = new MatTableDataSource(this.products);
+        this.dataSource.sort = this.sort;
+        this.msg = `page ${payload.number + 1} of products loaded `;
+        if (this.totalElements !== payload.totalElements) {
+          // reset paginator
+          this.paginator.firstPage();
+          this.totalElements = payload.totalElements;
+        }
+      },
+      err => {
+        this.msg += 'Error occurred - products  not loaded - ' + err.status + ' - ' +
+          err.statusText;
+      });
+  }
 }

@@ -26,6 +26,10 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="select(row)">></tr>
         </table>
+        <div>
+            <mat-paginator #paginator [length]="totalElements" [pageSize]="5" (page)="changePage($event)">
+            </mat-paginator>
+        </div>
         <div class="padtop15">
             <mat-icon (click)="newProduct()" matTooltip="Add New Product" class="addicon" color="primary">
                 control_point
