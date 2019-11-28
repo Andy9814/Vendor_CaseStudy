@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductModule } from './product/product.module';
 import { PurchaseorderModule } from './purchaseorder/purchaseorder.module';
+import { LoginModule } from './login/login.module';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { PurchaseorderModule } from './purchaseorder/purchaseorder.module';
     MatTooltipModule,
     MatIconModule,
     ProductModule,
-    PurchaseorderModule
+    PurchaseorderModule,
+    LoginModule,
   ],
   bootstrap: [AppComponent]
 })
