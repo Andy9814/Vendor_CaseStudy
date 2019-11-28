@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Vendor } from '../vendor/vendor';
-import { RestfulService } from '../restful.service';
-import { Product } from '../product/product';
-import { PurchaseorderItem } from './purchaseorder-item';
-import { Purchaseorder } from './purchaseorder';
-import { BASEURL, PDFURL } from '../constants';
+import { Vendor } from '../../vendor/vendor';
+import { RestfulService } from '../../restful.service';
+import { Product } from '../../product/product';
+import { PurchaseorderItem } from '../purchaseorder-item';
+import { Purchaseorder } from '../purchaseorder';
+import { BASEURL, PDFURL } from '../../constants';
 @Component({
   templateUrl: './purchaseorder-generator.component.html'
 })
@@ -40,7 +40,7 @@ export class PurchaseorderGeneratorComponent implements OnInit {
     this.pickedProduct = false;
     this.pickedQty = false;
     this.generated = false;
-    this.url = BASEURL + 'purchaseOrder';
+    this.url = BASEURL + '/api/purchaseorder';
   } // constructor
   ngOnInit() {
     this.msg = '';

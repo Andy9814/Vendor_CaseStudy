@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PurchaseOrderController {
     @Autowired
     private PurchaseOrderDAO purchaseOrderDAO;
-    @PostMapping("/purchaseOrder")
+    @PostMapping("/api/purchaseorder")
     public ResponseEntity<Long> addOne(@RequestBody PurchaseOrder clientrep) { // use RequestBody here
         Long reportId = purchaseOrderDAO.create(clientrep);
         return new ResponseEntity<Long>(reportId, HttpStatus.OK);

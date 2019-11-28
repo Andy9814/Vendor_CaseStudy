@@ -6,12 +6,13 @@ import {
   MatSelectModule, MatButtonModule, MatInputModule, MatToolbarModule,
   MatIconModule, MatCardModule, MatTooltipModule, MatListModule
 } from '@angular/material';
-import { PurchaseorderGeneratorComponent } from './purchaseorder-generator.component';
+import { PurchaseorderGeneratorComponent } from './generator/purchaseorder-generator.component';
+import { PurchaseorderViewerComponent } from './viewer/purchaseorder-viewer.component';
 
 
 
 @NgModule({
-  declarations: [PurchaseorderGeneratorComponent],
+  declarations: [PurchaseorderGeneratorComponent, PurchaseorderViewerComponent],
   imports: [
     BrowserModule,
     CommonModule,
@@ -24,6 +25,7 @@ import { PurchaseorderGeneratorComponent } from './purchaseorder-generator.compo
     MatToolbarModule,
     MatTooltipModule,
     MatIconModule
+
   ]
 })
 export class PurchaseorderModule { }

@@ -20,11 +20,11 @@ VALUES ('5X',1,'Tesla',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('6X',1,'3Com',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
-VALUES ('7X',4,'A&M Records',84.6,75.23,75,75,75,75);
+VALUES ('7X',4,'A&M Records',99.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
-VALUES ('8X',4,'Adobe Systems',84.6,75.23,75,75,75,75);
+VALUES ('8X',4,'Adobe Systems',200,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
-VALUES ('9X',4,'Microsoft',84.6,75.23,75,75,75,75);
+VALUES ('9X',4,'Microsoft',86.3,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('10X',4,'Eclipse',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
@@ -38,7 +38,7 @@ VALUES ('14X',3,'Targus',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('15X',2,'Aoc',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
-VALUES ('16X',3,'Microsoft',84.6,75.23,75,75,75,75);
+VALUES ('16X',3,'Microsoft',45.26,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('17X',2,'Surface',84.6,75.23,75,75,75,75);
 INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
@@ -49,4 +49,8 @@ INSERT INTO Product (Id,vendorid,name,costprice,msrp,rop,eoq,qoh,qoo)
 VALUES ('20X',3,'Tim Hortans',84.6,75.23,75,75,75,75);
 -- -- sample report
 -- INSERT INTO PURCHASE_ORDER  (vendorid,podate) VALUES (1, CURRENT_TIMESTAMP);
+-- INSERT INTO PURCHASE_ORDER  (vendorid,podate) VALUES (1, CURRENT_TIMESTAMP);
+--
 -- INSERT INTO PURCHASE_ORDER_LINE_ITEM (productid,poid,qty) VALUES ('1X',1,50);
+-- INSERT INTO PURCHASE_ORDER_LINE_ITEM (productid,poid,qty) VALUES ('2X',1,50);
+-- INSERT INTO PURCHASE_ORDER_LINE_ITEM (productid,poid,qty) VALUES ('3X',1,50);
